@@ -36,7 +36,10 @@
     --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
-  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+  html { 
+    font-size: 17px; 
+    -webkit-text-size-adjust: 100%; 
+  }   /* ← Bigger base font (was 16px) */
 
   body {
     font-family: var(--font);
@@ -48,7 +51,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Header - more compact */
   .app-header {
     padding: 40px 20px 16px;
     text-align: center;
@@ -64,21 +66,24 @@
   }
   .app-icon svg { width: 32px; height: 32px; fill: white; }
   .app-name {
-    font-size: 26px; font-weight: 700;
+    font-size: 28px; 
+    font-weight: 700;
     letter-spacing: -0.5px;
     color: var(--text-primary);
   }
   .app-tagline {
-    font-size: 13.5px; color: var(--text-secondary);
-    margin-top: 2px; font-weight: 400;
+    font-size: 14.5px; 
+    color: var(--text-secondary);
+    margin-top: 2px; 
+    font-weight: 400;
   }
 
-  /* Live status pill */
   .live-pill {
     display: inline-flex; align-items: center; gap: 5px;
     background: var(--green-soft);
     color: var(--green);
-    font-size: 11px; font-weight: 600;
+    font-size: 12px; 
+    font-weight: 600;
     letter-spacing: 0.3px;
     padding: 4px 10px;
     border-radius: 20px;
@@ -95,10 +100,8 @@
     50% { opacity: 0.5; transform: scale(0.8); }
   }
 
-  /* Main container - tighter */
   .container { max-width: 480px; margin: 0 auto; padding: 0 12px; }
 
-  /* Cards - tighter spacing */
   .card {
     background: var(--card);
     backdrop-filter: blur(20px) saturate(180%);
@@ -127,14 +130,14 @@
   .card-icon.purple { background: rgba(88,86,214,0.1); }
 
   .card-title {
-    font-size: 11px; font-weight: 600;
+    font-size: 12px; 
+    font-weight: 600;
     color: var(--text-secondary);
     letter-spacing: 0.8px;
     text-transform: uppercase;
   }
   .card-body { padding: 12px 18px 18px; }
 
-  /* DateTime row - compact */
   .dt-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .dt-tile {
     background: var(--input-bg);
@@ -143,19 +146,22 @@
     cursor: pointer;
     transition: background 0.15s;
     position: relative;
-    tab-index: 0;
+    user-select: none;
   }
   .dt-tile:focus { outline: 2px solid var(--accent); }
   .dt-tile:hover { background: rgba(118,118,128,0.12); }
   .dt-tile:active { background: rgba(118,118,128,0.18); }
   .dt-tile-label {
-    font-size: 10px; font-weight: 600;
+    font-size: 11px; 
+    font-weight: 600;
     color: var(--text-tertiary);
-    text-transform: uppercase; letter-spacing: 0.8px;
+    text-transform: uppercase; 
+    letter-spacing: 0.8px;
     margin-bottom: 3px;
   }
   .dt-tile-value {
-    font-size: 17px; font-weight: 500;
+    font-size: 18.5px; 
+    font-weight: 500;
     color: var(--text-primary);
     letter-spacing: -0.3px;
     font-variant-numeric: tabular-nums;
@@ -168,14 +174,15 @@
     position: absolute; inset: 0; opacity: 0;
     width: 100%; height: 100%; cursor: pointer;
     font-size: 16px;
+    z-index: 2;
   }
 
-  /* Form fields */
   .field { margin-bottom: 10px; }
   .field:last-child { margin-bottom: 0; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .field-label {
-    font-size: 12px; font-weight: 500;
+    font-size: 13px; 
+    font-weight: 500;
     color: var(--text-secondary);
     margin-bottom: 6px; display: block;
   }
@@ -194,7 +201,8 @@
     border-radius: var(--radius-md);
     padding: 12px 14px;
     font-family: var(--font);
-    font-size: 15px; font-weight: 400;
+    font-size: 16px; 
+    font-weight: 400;
     color: var(--text-primary);
     outline: none;
     transition: border-color 0.2s, background 0.2s;
@@ -202,7 +210,7 @@
     appearance: none;
   }
   input.big-input {
-    font-size: 24px !important;
+    font-size: 26px !important;
     font-weight: 600 !important;
     padding: 14px 16px !important;
     height: 58px;
@@ -215,7 +223,6 @@
   input::placeholder, textarea::placeholder { color: var(--text-tertiary); }
   input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-  /* Copy button for client number */
   .copy-num-btn {
     background: var(--accent);
     color: #fff;
@@ -235,7 +242,6 @@
   }
   .copy-num-btn:active { transform: scale(0.95); }
 
-  /* Stars */
   .star-row { display: flex; gap: 4px; }
   .star-btn {
     background: none; border: none; cursor: pointer;
@@ -248,7 +254,6 @@
   .star-btn.active { color: #c41b1e; }
   .star-btn:active { transform: scale(0.85); }
 
-  /* Payment modes */
   .pay-grid { display: flex; flex-wrap: wrap; gap: 7px; }
   .pay-chip {
     padding: 7px 15px;
@@ -269,7 +274,6 @@
     color: #fff;
   }
 
-  /* Summary card */
   .summary-card {
     background: var(--card);
     backdrop-filter: blur(20px) saturate(180%);
@@ -286,21 +290,21 @@
     border-bottom: 0.5px solid var(--separator);
   }
   .summary-row:last-child { border-bottom: none; }
-  .summary-label { font-size: 15px; color: var(--text-secondary); font-weight: 400; }
-  .summary-value { font-size: 15px; font-weight: 500; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .summary-label { font-size: 16px; color: var(--text-secondary); font-weight: 400; }
+  .summary-value { font-size: 16px; font-weight: 500; color: var(--text-primary); font-variant-numeric: tabular-nums; }
   .summary-row.total { background: var(--green-soft); }
-  .summary-row.total .summary-label { font-weight: 600; color: var(--green); font-size: 15px; }
-  .summary-row.total .summary-value { font-size: 20px; font-weight: 700; color: var(--green); letter-spacing: -0.5px; }
+  .summary-row.total .summary-label { font-weight: 600; color: var(--green); font-size: 16px; }
+  .summary-row.total .summary-value { font-size: 21px; font-weight: 700; color: var(--green); letter-spacing: -0.5px; }
   .summary-row.pending-row .summary-value { color: var(--red); font-weight: 600; }
   .summary-row.pending-row.settled .summary-value { color: var(--green); }
 
-  /* Preview box */
   .preview-box {
     background: var(--input-bg);
     border-radius: var(--radius-md);
     padding: 13px 15px;
     font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
-    font-size: 11px; line-height: 1.7;
+    font-size: 12px; 
+    line-height: 1.7;
     color: var(--text-secondary);
     word-break: break-all;
     min-height: 56px;
@@ -311,7 +315,6 @@
     margin-top: 7px; text-align: center;
   }
 
-  /* Done button */
   .done-btn {
     width: 100%;
     background: var(--accent);
@@ -320,7 +323,8 @@
     border-radius: var(--radius-lg);
     padding: 15px;
     font-family: var(--font);
-    font-size: 17px; font-weight: 600;
+    font-size: 18px; 
+    font-weight: 600;
     cursor: pointer;
     letter-spacing: -0.2px;
     margin-top: 12px;
@@ -344,7 +348,6 @@
   }
   .reset-btn:hover { background: var(--red-soft); }
 
-  /* Toast */
   .toast {
     position: fixed; bottom: 30px; left: 50%;
     transform: translateX(-50%) translateY(100px);
@@ -364,7 +367,7 @@
   .toast-icon { font-size: 16px; }
 
   @media (max-width: 360px) {
-    .app-name { font-size: 23px; }
+    .app-name { font-size: 25px; }
     .field-row { grid-template-columns: 1fr; }
   }
 </style>
@@ -395,27 +398,25 @@
         <div class="dt-tile" id="dateTile" tabindex="0">
           <div class="dt-tile-label">Date</div>
           <div class="dt-tile-value" id="dateDisplay">--</div>
-          <div class="dt-tile-hint">Tap or Enter to change</div>
-          <input type="date" class="dt-hidden" id="dateInput" aria-label="Select date">
+          <div class="dt-tile-hint">Tap to change</div>
+          <input type="date" class="dt-hidden" id="dateInput">
         </div>
         <div class="dt-tile" id="timeTile" tabindex="0">
           <div class="dt-tile-label">Time</div>
           <div class="dt-tile-value" id="timeDisplay">--</div>
-          <div class="dt-tile-hint">Tap or Enter to change</div>
-          <input type="time" class="dt-hidden" id="timeInput" aria-label="Select time">
+          <div class="dt-tile-hint">Tap to change</div>
+          <input type="time" class="dt-hidden" id="timeInput">
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Client Info - Big Client Number first (middle of flow) -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon purple">👤</div>
       <div class="card-title">Client Details</div>
     </div>
     <div class="card-body">
-      <!-- Big Client Number with copy -->
       <div class="field">
         <label class="field-label" for="clientNum">Client Number</label>
         <div style="display:flex; align-items:center; gap:8px;">
@@ -424,7 +425,6 @@
         </div>
       </div>
 
-      <!-- Name + Work in one row (compact) -->
       <div class="field-row" style="margin-top:12px">
         <div class="field">
           <label class="field-label" for="clientName">Client Name</label>
@@ -439,14 +439,12 @@
     </div>
   </div>
 
-  <!-- Billing - Amount Received FIRST, then Total + Discount -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon green">₹</div>
       <div class="card-title">Billing</div>
     </div>
     <div class="card-body">
-      <!-- Amount Received first (full width) -->
       <div class="field">
         <label class="field-label" for="amtPaid">Amount Received</label>
         <div class="input-wrap">
@@ -455,7 +453,6 @@
         </div>
       </div>
 
-      <!-- Then Total & Discount side-by-side -->
       <div class="field-row">
         <div class="field">
           <label class="field-label" for="totalAmt">Total Amount</label>
@@ -475,7 +472,6 @@
     </div>
   </div>
 
-  <!-- Auto Summary -->
   <div class="summary-card">
     <div class="summary-row">
       <span class="summary-label">Auto Calculation</span>
@@ -495,7 +491,6 @@
     </div>
   </div>
 
-  <!-- Rating & Payment -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon orange">⭐</div>
@@ -529,7 +524,6 @@
     </div>
   </div>
 
-  <!-- Preview & Copy -->
   <div class="card">
     <div class="card-header">
       <div class="card-icon blue">📋</div>
@@ -547,7 +541,6 @@
 
 </div>
 
-<!-- Toast notification -->
 <div class="toast" id="toast">
   <span class="toast-icon">✓</span>
   <span>Copied! Now paste into Excel</span>
@@ -555,10 +548,9 @@
 
 <script>
 (function(){
-  // Variables
   let starVal = 0, payMode = '', manualDate = false, manualTime = false;
-  let dateVal = '';      // YYYY-MM-DD
-  let timeVal24 = '';    // HH:MM (24-hour internal)
+  let dateVal = '';
+  let timeVal24 = '';
   let presets = [];
 
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -567,7 +559,6 @@
 
   function fmtINR(n){ return '₹' + Number(n).toLocaleString('en-IN'); }
 
-  // New date/time formatters
   function formatDisplayDate(isoDate){
     if(!isoDate) return '--';
     const [y, m, d] = isoDate.split('-').map(Number);
@@ -590,22 +581,12 @@
     };
   }
 
-  // Load saved work presets
   function loadPresets(){
     const saved = localStorage.getItem('magicStudioWorkPresets');
     if(saved){
       presets = JSON.parse(saved);
     } else {
-      presets = [
-        "Wedding Invitation Design",
-        "Poster Design",
-        "Logo Design",
-        "Flyer Design",
-        "Banner Design",
-        "Social Media Post",
-        "Business Card Design",
-        "Brochure Design"
-      ];
+      presets = ["Wedding Invitation Design","Poster Design","Logo Design","Flyer Design","Banner Design","Social Media Post","Business Card Design","Brochure Design"];
       localStorage.setItem('magicStudioWorkPresets', JSON.stringify(presets));
     }
     updateDatalist();
@@ -634,62 +615,56 @@
     var n = getNow();
     dateVal = n.isoDate;
     timeVal24 = n.isoTime;
-
     document.getElementById('dateDisplay').textContent = formatDisplayDate(dateVal);
     document.getElementById('timeDisplay').textContent = formatDisplayTime(timeVal24);
     document.getElementById('dateInput').value = dateVal;
     document.getElementById('timeInput').value = timeVal24;
   }
 
-  // Live clock (only updates if not manually set)
   setInterval(function(){
     var n = getNow();
-    if(!manualDate){
+    if(!manualDate) {
       dateVal = n.isoDate;
       document.getElementById('dateDisplay').textContent = formatDisplayDate(dateVal);
     }
-    if(!manualTime){
+    if(!manualTime) {
       timeVal24 = n.isoTime;
       document.getElementById('timeDisplay').textContent = formatDisplayTime(timeVal24);
     }
   }, 1000);
 
-  // Date & Time picker triggers (fixes "Date is not changing")
   function setupDateTimeTiles(){
     const dateTile = document.getElementById('dateTile');
     const timeTile = document.getElementById('timeTile');
     const dateInput = document.getElementById('dateInput');
     const timeInput = document.getElementById('timeInput');
 
-    // Click handlers
-    dateTile.addEventListener('click', function(e){
-      if(e.target.tagName === 'INPUT') return;
-      dateInput.focus();
-      if(dateInput.showPicker) dateInput.showPicker();
-    });
-    timeTile.addEventListener('click', function(e){
-      if(e.target.tagName === 'INPUT') return;
-      timeInput.focus();
-      if(timeInput.showPicker) timeInput.showPicker();
-    });
+    function openPicker(input) {
+      input.focus();
 
-    // Keyboard support (Tab → Enter opens picker)
-    dateTile.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        dateInput.focus();
-        if(dateInput.showPicker) dateInput.showPicker();
-      }
-    });
-    timeTile.addEventListener('keydown', function(e){
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        timeInput.focus();
-        if(timeInput.showPicker) timeInput.showPicker();
-      }
-    });
+      // FIXED TIME PICKER: small delay + try showPicker / click
+      // This solves the issue where time picker wouldn't open on many mobile devices
+      setTimeout(() => {
+        if (typeof input.showPicker === 'function') {
+          try {
+            input.showPicker();
+          } catch(e) {
+            input.click();   // fallback
+          }
+        } else {
+          input.click();
+        }
+      }, 15);
+    }
 
-    // Value change handlers
+    dateTile.addEventListener('click', () => openPicker(dateInput));
+    timeTile.addEventListener('click', () => openPicker(timeInput));
+
+    // Keyboard support
+    dateTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(dateInput); } });
+    timeTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(timeInput); } });
+
+    // Update values when changed
     dateInput.addEventListener('change', function(){
       if(this.value){
         document.getElementById('dateDisplay').textContent = formatDisplayDate(this.value);
@@ -698,6 +673,7 @@
         updateAll();
       }
     });
+
     timeInput.addEventListener('change', function(){
       if(this.value){
         document.getElementById('timeDisplay').textContent = formatDisplayTime(this.value);
@@ -748,120 +724,88 @@
     document.getElementById('previewText').textContent = buildOutput();
   }
 
-  // Toast with custom message support
   function showToast(customMsg = null){
     var t = document.getElementById('toast');
     const textSpan = t.querySelector('span:last-child');
     const originalMsg = textSpan.textContent;
     if(customMsg) textSpan.textContent = customMsg;
     t.classList.add('show');
-    setTimeout(function(){
+    setTimeout(() => {
       t.classList.remove('show');
-      if(customMsg){
-        setTimeout(() => { textSpan.textContent = originalMsg; }, 400);
-      }
+      if(customMsg) setTimeout(() => { textSpan.textContent = originalMsg; }, 400);
     }, 2800);
   }
 
-  // Copy Client Number
   function copyClientNumber(){
-    const numInput = document.getElementById('clientNum');
-    const num = numInput.value.trim();
-    if(!num){
-      showToast('Enter Client Number first');
-      return;
-    }
-    if(navigator.clipboard && window.isSecureContext){
-      navigator.clipboard.writeText(num).then(() => {
-        showToast('Client Number Copied!');
-      }).catch(() => {
-        fallbackCopy(num, 'Client Number Copied!');
-      });
-    } else {
-      fallbackCopy(num, 'Client Number Copied!');
-    }
+    const num = document.getElementById('clientNum').value.trim();
+    if(!num){ showToast('Enter Client Number first'); return; }
+    navigator.clipboard.writeText(num).then(() => showToast('Client Number Copied!')).catch(() => fallbackCopy(num, 'Client Number Copied!'));
   }
 
   function fallbackCopy(text, msg){
     var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta);
-    ta.focus(); ta.select();
-    try{ document.execCommand('copy'); showToast(msg); } catch(e){}
+    ta.select();
+    document.execCommand('copy');
     document.body.removeChild(ta);
+    showToast(msg);
   }
 
-  // Stars
   function setupStars(){
-    document.getElementById('starRow').querySelectorAll('.star-btn').forEach(function(s){
+    document.querySelectorAll('.star-btn').forEach(s => {
       s.addEventListener('click', function(){
         starVal = parseInt(this.dataset.val);
-        document.querySelectorAll('.star-btn').forEach(function(x,i){ x.classList.toggle('active', i < starVal); });
+        document.querySelectorAll('.star-btn').forEach((x,i) => x.classList.toggle('active', i < starVal));
         updateAll();
       });
     });
   }
 
-  // Payment chips
   function setupPayChips(){
-    document.querySelectorAll('.pay-chip').forEach(function(b){
+    document.querySelectorAll('.pay-chip').forEach(b => {
       b.addEventListener('click', function(){
         payMode = this.dataset.mode;
-        document.querySelectorAll('.pay-chip').forEach(function(x){ x.classList.remove('selected'); });
+        document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected'));
         this.classList.add('selected');
         updateAll();
       });
     });
   }
 
-  // Input listeners
   function setupInputs(){
-    ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(function(id){
-      const el = document.getElementById(id);
-      if(el) el.addEventListener('input', updateAll);
+    ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateAll);
     });
-
-    // Save new work description to presets on blur
-    const workInput = document.getElementById('workDesc');
-    workInput.addEventListener('blur', function(){
+    document.getElementById('workDesc').addEventListener('blur', function(){
       saveNewPreset(this.value);
     });
   }
 
-  // Done button
   function setupDone(){
     document.getElementById('doneBtn').addEventListener('click', function(){
       var out = buildOutput();
-      if(navigator.clipboard && window.isSecureContext){
-        navigator.clipboard.writeText(out).then(() => showToast()).catch(() => fallbackCopy(out));
-      } else {
-        fallbackCopy(out);
-      }
+      navigator.clipboard.writeText(out).then(() => showToast()).catch(() => fallbackCopy(out));
     });
   }
 
-  // Reset
   function setupReset(){
     document.getElementById('resetBtn').addEventListener('click', function(){
-      ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(function(id){
-        const el = document.getElementById(id);
-        if(el) el.value = '';
+      ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => {
+        document.getElementById(id).value = '';
       });
       starVal = 0; payMode = ''; manualDate = false; manualTime = false;
-      document.querySelectorAll('.star-btn').forEach(function(x){ x.classList.remove('active'); });
-      document.querySelectorAll('.pay-chip').forEach(function(x){ x.classList.remove('selected'); });
+      document.querySelectorAll('.star-btn').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected'));
       initDT();
       updateAll();
     });
   }
 
-  // Copy Client Number button
   function setupCopyBtn(){
     document.getElementById('copyNumBtn').addEventListener('click', copyClientNumber);
   }
 
-  // Initialize everything
   function init(){
     loadPresets();
     initDT();
@@ -875,7 +819,6 @@
     updateAll();
   }
 
-  // Start
   init();
 })();
 </script>

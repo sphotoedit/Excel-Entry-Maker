@@ -39,7 +39,7 @@
   html { 
     font-size: 17px; 
     -webkit-text-size-adjust: 100%; 
-  }   /* ← Bigger base font (was 16px) */
+  }
 
   body {
     font-family: var(--font);
@@ -51,6 +51,145 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* ─── LOCK SCREEN ─── */
+  #lockScreen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  #lockScreen.hiding {
+    opacity: 0;
+    transform: scale(0.97);
+    pointer-events: none;
+  }
+
+  .lock-icon {
+    width: 72px; height: 72px;
+    background: linear-gradient(145deg, #c41b1e, #f25c5c);
+    border-radius: 18px;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(196,27,30,0.4);
+  }
+  .lock-icon svg { width: 36px; height: 36px; fill: white; }
+
+  .lock-title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .lock-sub {
+    font-size: 15px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .lock-input-wrap {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    gap: 0;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s;
+    background: white;
+  }
+  .lock-input-wrap:focus-within {
+    border-color: var(--accent);
+  }
+
+  #lockPhone {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 18px 16px;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    font-family: var(--font);
+    outline: none;
+    min-width: 0;
+  }
+  #lockPhone::placeholder {
+    color: var(--text-tertiary);
+    font-weight: 400;
+    letter-spacing: 0;
+    font-size: 20px;
+  }
+
+  .lock-copy-btn {
+    background: none;
+    border: none;
+    border-left: 1.5px solid var(--separator);
+    padding: 0 18px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 22px;
+    transition: background 0.15s, color 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lock-copy-btn:hover { background: var(--accent-soft); color: var(--accent); }
+  .lock-copy-btn:active { transform: scale(0.92); }
+
+  .lock-go-btn {
+    background: var(--accent);
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    padding: 0 22px;
+    cursor: pointer;
+    color: white;
+    font-size: 22px;
+    transition: background 0.15s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lock-go-btn:hover { background: #a81518; }
+  .lock-go-btn:active { transform: scale(0.92); }
+
+  .lock-hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .lock-copied-toast {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--green);
+    font-weight: 600;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    min-height: 20px;
+  }
+  .lock-copied-toast.show { opacity: 1; }
+
+  /* ─── MAIN APP (hidden until unlocked) ─── */
+  #mainApp {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  #mainApp.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ─── ORIGINAL STYLES ─── */
   .app-header {
     padding: 40px 20px 16px;
     text-align: center;
@@ -369,10 +508,49 @@
   @media (max-width: 360px) {
     .app-name { font-size: 25px; }
     .field-row { grid-template-columns: 1fr; }
+    #lockPhone { font-size: 22px; }
   }
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  LOCK SCREEN — client sees only this   -->
+<!-- ═══════════════════════════════════════ -->
+<div id="lockScreen">
+  <div class="lock-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </svg>
+  </div>
+  <div class="lock-title">Magic Studio</div>
+  <div class="lock-sub">Enter client WhatsApp number</div>
+
+  <div class="lock-input-wrap">
+    <input
+      type="tel"
+      id="lockPhone"
+      placeholder="98XXXXXXXX"
+      autocomplete="off"
+      inputmode="numeric"
+      maxlength="15"
+    >
+    <button type="button" class="lock-copy-btn" id="lockCopyBtn" title="Copy number">
+      📋
+    </button>
+    <button type="button" class="lock-go-btn" id="lockGoBtn" title="Open full tool">
+      ➜
+    </button>
+  </div>
+
+  <div class="lock-copied-toast" id="lockCopiedToast">✓ Number copied!</div>
+  <div class="lock-hint">Press ➜ or Enter to open the full entry form</div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!--  MAIN APP — hidden from client         -->
+<!-- ═══════════════════════════════════════ -->
+<div id="mainApp">
 
 <div class="app-header">
   <div class="app-icon">
@@ -539,7 +717,8 @@
     </div>
   </div>
 
-</div>
+</div><!-- /container -->
+</div><!-- /mainApp -->
 
 <div class="toast" id="toast">
   <span class="toast-icon">✓</span>
@@ -548,6 +727,65 @@
 
 <script>
 (function(){
+
+  /* ───── LOCK SCREEN LOGIC ───── */
+  const lockScreen  = document.getElementById('lockScreen');
+  const mainApp     = document.getElementById('mainApp');
+  const lockPhone   = document.getElementById('lockPhone');
+  const lockCopyBtn = document.getElementById('lockCopyBtn');
+  const lockGoBtn   = document.getElementById('lockGoBtn');
+  const lockToast   = document.getElementById('lockCopiedToast');
+  let lockToastTimer = null;
+
+  function showLockCopied() {
+    lockToast.classList.add('show');
+    clearTimeout(lockToastTimer);
+    lockToastTimer = setTimeout(() => lockToast.classList.remove('show'), 2200);
+  }
+
+  lockCopyBtn.addEventListener('click', function(){
+    const num = lockPhone.value.trim();
+    if (!num) { lockPhone.focus(); return; }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(num).then(showLockCopied).catch(() => fbCopyLock(num));
+    } else {
+      fbCopyLock(num);
+    }
+  });
+
+  function fbCopyLock(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showLockCopied();
+  }
+
+  function unlock() {
+    const num = lockPhone.value.trim();
+    // Animate lock screen out
+    lockScreen.classList.add('hiding');
+    setTimeout(() => {
+      lockScreen.style.display = 'none';
+      // Show main app
+      mainApp.style.display = 'block';
+      requestAnimationFrame(() => {
+        mainApp.classList.add('visible');
+      });
+      // Pre-fill client number into the main form
+      if (num) {
+        document.getElementById('clientNum').value = num;
+        updateAll();
+      }
+    }, 400);
+  }
+
+  lockGoBtn.addEventListener('click', unlock);
+  lockPhone.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') unlock();
+  });
+
+  /* ───── MAIN APP LOGIC ───── */
   let starVal = 0, payMode = '', manualDate = false, manualTime = false;
   let dateVal = '';
   let timeVal24 = '';
@@ -556,7 +794,6 @@
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
   function pad(n){ return String(n).padStart(2,'0'); }
-
   function fmtINR(n){ return '₹' + Number(n).toLocaleString('en-IN'); }
 
   function formatDisplayDate(isoDate){
@@ -641,30 +878,18 @@
 
     function openPicker(input) {
       input.focus();
-
-      // FIXED TIME PICKER: small delay + try showPicker / click
-      // This solves the issue where time picker wouldn't open on many mobile devices
       setTimeout(() => {
         if (typeof input.showPicker === 'function') {
-          try {
-            input.showPicker();
-          } catch(e) {
-            input.click();   // fallback
-          }
-        } else {
-          input.click();
-        }
+          try { input.showPicker(); } catch(e) { input.click(); }
+        } else { input.click(); }
       }, 15);
     }
 
     dateTile.addEventListener('click', () => openPicker(dateInput));
     timeTile.addEventListener('click', () => openPicker(timeInput));
-
-    // Keyboard support
     dateTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(dateInput); } });
     timeTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(timeInput); } });
 
-    // Update values when changed
     dateInput.addEventListener('change', function(){
       if(this.value){
         document.getElementById('dateDisplay').textContent = formatDisplayDate(this.value);
@@ -820,6 +1045,10 @@
   }
 
   init();
+
+  // Focus lock phone input on load
+  lockPhone.focus();
+
 })();
 </script>
 </body>

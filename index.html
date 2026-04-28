@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Magic Studio Entry</title>
+<title>Magic Studio Entry | Dark/Light Mode</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* Light mode (default) */
   :root {
     --bg: #f8f9fa;
     --card: #ffffff;
@@ -34,6 +35,34 @@
     --radius-lg: 16px;
     --radius-xl: 20px;
     --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --toggle-bg: #e5e5ea;
+    --toggle-knob: #ffffff;
+    --toggle-icon: #ff9500;
+  }
+
+  /* Dark mode overrides */
+  body.dark {
+    --bg: #000000;
+    --card: #1c1c1e;
+    --card-solid: #1c1c1e;
+    --text-primary: #ffffff;
+    --text-secondary: #98989e;
+    --text-tertiary: #636366;
+    --accent: #ff3b30;
+    --accent-soft: rgba(255,59,48,0.15);
+    --green: #30d158;
+    --green-soft: rgba(48,209,88,0.12);
+    --red: #ff453a;
+    --red-soft: rgba(255,69,58,0.12);
+    --orange: #ff9f0a;
+    --separator: rgba(84,84,88,0.2);
+    --input-bg: rgba(118,118,128,0.12);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5), 0 2px 6px rgba(0,0,0,0.3);
+    --toggle-bg: #3a3a3c;
+    --toggle-knob: #ffffff;
+    --toggle-icon: #ff9f0a;
   }
 
   html { 
@@ -49,6 +78,52 @@
     padding-bottom: 32px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  /* ─── DARK MODE TOGGLE BUTTON (floating pill) ─── */
+  .theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1100;
+    background: var(--card);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 40px;
+    padding: 8px 12px;
+    box-shadow: var(--shadow-lg);
+    border: 0.5px solid var(--separator);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s, background 0.2s;
+    font-family: var(--font);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+  .theme-toggle:active {
+    transform: scale(0.96);
+  }
+  .theme-toggle-icon {
+    font-size: 20px;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+  .theme-toggle:hover .theme-toggle-icon {
+    transform: rotate(15deg);
+  }
+  .theme-toggle-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+  }
+  @media (max-width: 480px) {
+    .theme-toggle { padding: 6px 10px; bottom: 16px; right: 16px; }
+    .theme-toggle-text { display: none; }
+    .theme-toggle-icon { font-size: 22px; }
   }
 
   /* ─── LOCK SCREEN ─── */
@@ -62,7 +137,7 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s;
   }
   #lockScreen.hiding {
     opacity: 0;
@@ -77,6 +152,10 @@
     margin: 0 auto 16px;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 24px rgba(196,27,30,0.4);
+    transition: box-shadow 0.2s;
+  }
+  body.dark .lock-icon {
+    box-shadow: 0 6px 24px rgba(255,59,48,0.3);
   }
   .lock-icon svg { width: 36px; height: 36px; fill: white; }
 
@@ -102,7 +181,7 @@
     box-shadow: var(--shadow-lg);
     border: 1.5px solid transparent;
     transition: border-color 0.2s;
-    background: white;
+    background: var(--card-solid);
   }
   .lock-input-wrap:focus-within {
     border-color: var(--accent);
@@ -138,52 +217,7 @@
 
   .lock-action-btn {
     flex: 1;
-    background: white;
-    border: 1.5px solid var(--separator);
-    border-radius: var(--radius-md);
-    padding: 12px 8px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    transition: background 0.15s, border-color 0.15s, transform 0.1s;
-    box-shadow: var(--shadow-sm);
-  }
-  .lock-action-btn:active { transform: scale(0.93); }
-
-  .lock-action-btn .btn-icon { font-size: 20px; line-height: 1; }
-  .lock-action-btn .btn-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; color: var(--text-secondary); }
-
-  .lock-action-btn.copy-action:hover { background: var(--accent-soft); border-color: var(--accent); }
-  .lock-action-btn.copy-action:hover .btn-label { color: var(--accent); }
-
-  .lock-action-btn.wa-action:hover { background: rgba(37,211,102,0.1); border-color: #25D366; }
-  .lock-action-btn.wa-action:hover .btn-label { color: #1ead55; }
-
-  .lock-action-btn.tc-action:hover { background: rgba(26,115,232,0.1); border-color: #1a73e8; }
-  .lock-action-btn.tc-action:hover .btn-label { color: #1a73e8; }
-
-  .lock-action-btn.go-action {
-    background: var(--accent);
-    border-color: var(--accent);
-    flex: 1.4;
-  }
-  .lock-action-btn.go-action .btn-icon { color: white; font-size: 22px; }
-  .lock-action-btn.go-action .btn-label { color: rgba(255,255,255,0.85); }
-  .lock-action-btn.go-action:hover { background: #a81518; }
-
-  .lock-action-row {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .lock-action-btn {
-    flex: 1;
-    background: white;
+    background: var(--card-solid);
     border: 1.5px solid var(--separator);
     border-radius: var(--radius-md);
     padding: 11px 6px;
@@ -241,7 +275,7 @@
     opacity: 1;
   }
 
-  /* ─── ORIGINAL STYLES ─── */
+  /* ─── ORIGINAL STYLES (adjusted for dark mode variables) ─── */
   .app-header {
     padding: 40px 20px 16px;
     text-align: center;
@@ -318,6 +352,7 @@
   .card-icon.blue { background: var(--accent-soft); }
   .card-icon.green { background: var(--green-soft); }
   .card-icon.orange { background: rgba(255,149,0,0.12); }
+  body.dark .card-icon.orange { background: rgba(255,159,10,0.15); }
   .card-icon.purple { background: rgba(88,86,214,0.1); }
 
   .card-title {
@@ -412,7 +447,6 @@
     background: var(--card-solid);
   }
   input::placeholder, textarea::placeholder { color: var(--text-tertiary); }
-  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
   .copy-num-btn {
     background: var(--accent);
@@ -450,6 +484,10 @@
     height: 58px;
     flex-shrink: 0;
   }
+  body.dark .tc-num-btn {
+    background: #2c2c2e;
+    color: #5e9eff;
+  }
   .tc-num-btn:hover { background: #d2e3fc; }
   .tc-num-btn:active { transform: scale(0.95); }
 
@@ -462,7 +500,9 @@
     padding: 2px;
     -webkit-tap-highlight-color: transparent;
   }
+  body.dark .star-btn { color: #636366; }
   .star-btn.active { color: #c41b1e; }
+  body.dark .star-btn.active { color: #ff5e5e; }
   .star-btn:active { transform: scale(0.85); }
 
   .pay-grid { display: flex; flex-wrap: wrap; gap: 7px; }
@@ -586,9 +626,13 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════ -->
-<!--  LOCK SCREEN — client sees only this   -->
-<!-- ═══════════════════════════════════════ -->
+<!-- Dark/Light Mode Toggle (Floating Pill) -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Mode">
+  <span class="theme-toggle-icon" id="themeIcon">🌙</span>
+  <span class="theme-toggle-text" id="themeText">Dark Mode</span>
+</button>
+
+<!-- LOCK SCREEN -->
 <div id="lockScreen">
   <div class="lock-icon">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -599,14 +643,7 @@
   <div class="lock-sub">Enter client WhatsApp number</div>
 
   <div class="lock-input-wrap">
-    <input
-      type="tel"
-      id="lockPhone"
-      placeholder="98XXXXXXXX"
-      autocomplete="off"
-      inputmode="numeric"
-      maxlength="15"
-    >
+    <input type="tel" id="lockPhone" placeholder="98XXXXXXXX" autocomplete="off" inputmode="numeric" maxlength="15">
   </div>
 
   <div class="lock-action-row">
@@ -619,7 +656,7 @@
       <span class="btn-label">WhatsApp</span>
     </button>
     <button type="button" class="lock-action-btn tc-action" id="lockTcBtn" title="Find Name on Truecaller">
-      <span class="btn-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></span>
+      <span class="btn-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></span>
       <span class="btn-label">Find Name</span>
     </button>
     <button type="button" class="lock-action-btn go-action" id="lockGoBtn" title="Open full tool">
@@ -632,13 +669,10 @@
   <div class="lock-hint">Press Open or Enter to launch the full form</div>
 </div>
 
-<!-- ═══════════════════════════════════════ -->
-<!--  MAIN APP — hidden from client         -->
-<!-- ═══════════════════════════════════════ -->
+<!-- MAIN APP -->
 <div id="mainApp">
-
 <div class="app-header">
-  <button type="button" id="backBtn" title="Back to number entry" style="position:absolute;left:16px;top:44px;background:var(--input-bg);border:none;border-radius:var(--radius-md);padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:5px;transition:background 0.15s,color 0.15s;">
+  <button type="button" id="backBtn" style="position:absolute;left:16px;top:44px;background:var(--input-bg);border:none;border-radius:var(--radius-md);padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:5px;transition:background 0.15s,color 0.15s;">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     Back
   </button>
@@ -653,174 +687,95 @@
 </div>
 
 <div class="container">
-
   <!-- Date & Time -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon blue">📅</div>
-      <div class="card-title">Date &amp; Time</div>
-    </div>
-    <div class="card-body">
-      <div class="dt-row">
-        <div class="dt-tile" id="dateTile" tabindex="0">
-          <div class="dt-tile-label">Date</div>
-          <div class="dt-tile-value" id="dateDisplay">--</div>
-          <div class="dt-tile-hint">Tap to change</div>
-          <input type="date" class="dt-hidden" id="dateInput">
-        </div>
-        <div class="dt-tile" id="timeTile" tabindex="0">
-          <div class="dt-tile-label">Time</div>
-          <div class="dt-tile-value" id="timeDisplay">--</div>
-          <div class="dt-tile-hint">Tap to change</div>
-          <input type="time" class="dt-hidden" id="timeInput">
-        </div>
-      </div>
-    </div>
+    <div class="card-header"><div class="card-icon blue">📅</div><div class="card-title">Date &amp; Time</div></div>
+    <div class="card-body"><div class="dt-row">
+      <div class="dt-tile" id="dateTile" tabindex="0"><div class="dt-tile-label">Date</div><div class="dt-tile-value" id="dateDisplay">--</div><div class="dt-tile-hint">Tap to change</div><input type="date" class="dt-hidden" id="dateInput"></div>
+      <div class="dt-tile" id="timeTile" tabindex="0"><div class="dt-tile-label">Time</div><div class="dt-tile-value" id="timeDisplay">--</div><div class="dt-tile-hint">Tap to change</div><input type="time" class="dt-hidden" id="timeInput"></div>
+    </div></div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon purple">👤</div>
-      <div class="card-title">Client Details</div>
-    </div>
+    <div class="card-header"><div class="card-icon purple">👤</div><div class="card-title">Client Details</div></div>
     <div class="card-body">
-      <div class="field">
-        <label class="field-label" for="clientNum">Client Number</label>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <input type="tel" id="clientNum" class="big-input" placeholder="98XXXXXXXX" autocomplete="off">
-          <button type="button" id="copyNumBtn" class="copy-num-btn">📋 Copy</button>
-          <button type="button" id="tcNumBtn" class="tc-num-btn" title="Find Name on Truecaller">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="field-row" style="margin-top:12px">
-        <div class="field">
-          <label class="field-label" for="clientName">Client Name</label>
-          <input type="text" id="clientName" placeholder="Full name" autocomplete="off">
-        </div>
-        <div class="field">
-          <label class="field-label" for="workDesc">Work Description</label>
-          <input type="text" id="workDesc" list="workSuggestions" placeholder="Type or select saved work" autocomplete="off">
-        </div>
-      </div>
+      <div class="field"><label class="field-label" for="clientNum">Client Number</label><div style="display:flex; align-items:center; gap:8px;"><input type="tel" id="clientNum" class="big-input" placeholder="98XXXXXXXX" autocomplete="off"><button type="button" id="copyNumBtn" class="copy-num-btn">📋 Copy</button><button type="button" id="tcNumBtn" class="tc-num-btn" title="Find Name on Truecaller"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button></div></div>
+      <div class="field-row" style="margin-top:12px"><div class="field"><label class="field-label" for="clientName">Client Name</label><input type="text" id="clientName" placeholder="Full name" autocomplete="off"></div><div class="field"><label class="field-label" for="workDesc">Work Description</label><input type="text" id="workDesc" list="workSuggestions" placeholder="Type or select saved work" autocomplete="off"></div></div>
       <datalist id="workSuggestions"></datalist>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon green">₹</div>
-      <div class="card-title">Billing</div>
-    </div>
+    <div class="card-header"><div class="card-icon green">₹</div><div class="card-title">Billing</div></div>
     <div class="card-body">
-      <div class="field">
-        <label class="field-label" for="amtPaid">Amount Received</label>
-        <div class="input-wrap">
-          <span class="input-prefix">₹</span>
-          <input type="number" id="amtPaid" class="has-prefix" placeholder="0" min="0" inputmode="numeric">
-        </div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label class="field-label" for="totalAmt">Total Amount</label>
-          <div class="input-wrap">
-            <span class="input-prefix">₹</span>
-            <input type="number" id="totalAmt" class="has-prefix" placeholder="0" min="0" inputmode="numeric">
-          </div>
-        </div>
-        <div class="field">
-          <label class="field-label" for="discount">Discount</label>
-          <div class="input-wrap">
-            <span class="input-prefix">₹</span>
-            <input type="number" id="discount" class="has-prefix" placeholder="0" min="0" inputmode="numeric">
-          </div>
-        </div>
-      </div>
+      <div class="field"><label class="field-label" for="amtPaid">Amount Received</label><div class="input-wrap"><span class="input-prefix">₹</span><input type="number" id="amtPaid" class="has-prefix" placeholder="0" min="0" inputmode="numeric"></div></div>
+      <div class="field-row"><div class="field"><label class="field-label" for="totalAmt">Total Amount</label><div class="input-wrap"><span class="input-prefix">₹</span><input type="number" id="totalAmt" class="has-prefix" placeholder="0" min="0" inputmode="numeric"></div></div><div class="field"><label class="field-label" for="discount">Discount</label><div class="input-wrap"><span class="input-prefix">₹</span><input type="number" id="discount" class="has-prefix" placeholder="0" min="0" inputmode="numeric"></div></div></div>
     </div>
   </div>
 
   <div class="summary-card">
-    <div class="summary-row">
-      <span class="summary-label">Auto Calculation</span>
-      <span class="summary-value" id="autoCalc">₹0</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label">Amount Received</span>
-      <span class="summary-value" id="recvDisplay">₹0</span>
-    </div>
-    <div class="summary-row pending-row" id="pendingRow">
-      <span class="summary-label">Pending Balance</span>
-      <span class="summary-value" id="pendingDisplay">₹0</span>
-    </div>
-    <div class="summary-row total">
-      <span class="summary-label">Net Payable</span>
-      <span class="summary-value" id="netPayable">₹0</span>
+    <div class="summary-row"><span class="summary-label">Auto Calculation</span><span class="summary-value" id="autoCalc">₹0</span></div>
+    <div class="summary-row"><span class="summary-label">Amount Received</span><span class="summary-value" id="recvDisplay">₹0</span></div>
+    <div class="summary-row pending-row" id="pendingRow"><span class="summary-label">Pending Balance</span><span class="summary-value" id="pendingDisplay">₹0</span></div>
+    <div class="summary-row total"><span class="summary-label">Net Payable</span><span class="summary-value" id="netPayable">₹0</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon orange">⭐</div><div class="card-title">Rating &amp; Payment</div></div>
+    <div class="card-body">
+      <div class="field"><label class="field-label">Star Rating</label><div class="star-row" id="starRow"><button class="star-btn" data-val="1">★</button><button class="star-btn" data-val="2">★</button><button class="star-btn" data-val="3">★</button><button class="star-btn" data-val="4">★</button><button class="star-btn" data-val="5">★</button></div></div>
+      <div class="field"><label class="field-label">Payment Mode</label><div class="pay-grid"><button class="pay-chip" data-mode="GPay">GPay</button><button class="pay-chip" data-mode="Cash">Cash</button><button class="pay-chip" data-mode="UPI">UPI</button><button class="pay-chip" data-mode="Bank Transfer">Bank Transfer</button><button class="pay-chip" data-mode="Cheque">Cheque</button></div></div>
+      <div class="field"><label class="field-label" for="extraNotes">Extra Notes</label><input type="text" id="extraNotes" placeholder="Optional notes..." autocomplete="off"></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon orange">⭐</div>
-      <div class="card-title">Rating &amp; Payment</div>
-    </div>
-    <div class="card-body">
-      <div class="field">
-        <label class="field-label">Star Rating</label>
-        <div class="star-row" id="starRow">
-          <button class="star-btn" data-val="1" aria-label="1 star">★</button>
-          <button class="star-btn" data-val="2" aria-label="2 stars">★</button>
-          <button class="star-btn" data-val="3" aria-label="3 stars">★</button>
-          <button class="star-btn" data-val="4" aria-label="4 stars">★</button>
-          <button class="star-btn" data-val="5" aria-label="5 stars">★</button>
-        </div>
-      </div>
-      <div class="field">
-        <label class="field-label">Payment Mode</label>
-        <div class="pay-grid">
-          <button class="pay-chip" data-mode="GPay">GPay</button>
-          <button class="pay-chip" data-mode="Cash">Cash</button>
-          <button class="pay-chip" data-mode="UPI">UPI</button>
-          <button class="pay-chip" data-mode="Bank Transfer">Bank Transfer</button>
-          <button class="pay-chip" data-mode="Cheque">Cheque</button>
-        </div>
-      </div>
-      <div class="field">
-        <label class="field-label" for="extraNotes">Extra Notes</label>
-        <input type="text" id="extraNotes" placeholder="Optional notes..." autocomplete="off">
-      </div>
-    </div>
+    <div class="card-header"><div class="card-icon blue">📋</div><div class="card-title">Excel Output Preview</div></div>
+    <div class="card-body"><div class="preview-box" id="previewText">Fill in the fields above to generate your Excel row...</div><div class="preview-hint">Tab-separated · Paste directly into Excel</div><button class="done-btn" id="doneBtn"><span>✓</span><span>Done — Copy to Clipboard</span></button><button class="reset-btn" id="resetBtn">Clear &amp; Reset</button></div>
   </div>
+</div></div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon blue">📋</div>
-      <div class="card-title">Excel Output Preview</div>
-    </div>
-    <div class="card-body">
-      <div class="preview-box" id="previewText">Fill in the fields above to generate your Excel row...</div>
-      <div class="preview-hint">Tab-separated · Paste directly into Excel</div>
-      <button class="done-btn" id="doneBtn">
-        <span>✓</span><span>Done — Copy to Clipboard</span>
-      </button>
-      <button class="reset-btn" id="resetBtn">Clear &amp; Reset</button>
-    </div>
-  </div>
-
-</div><!-- /container -->
-</div><!-- /mainApp -->
-
-<div class="toast" id="toast">
-  <span class="toast-icon">✓</span>
-  <span>Copied! Now paste into Excel</span>
-</div>
+<div class="toast" id="toast"><span class="toast-icon">✓</span><span>Copied! Now paste into Excel</span></div>
 
 <script>
 (function(){
+  // ---------- DARK/LIGHT MODE TOGGLE ----------
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const themeText = document.getElementById('themeText');
+  
+  function setTheme(isDark) {
+    if (isDark) {
+      document.body.classList.add('dark');
+      themeIcon.textContent = '☀️';
+      themeText.textContent = 'Light Mode';
+      localStorage.setItem('magicStudioTheme', 'dark');
+    } else {
+      document.body.classList.remove('dark');
+      themeIcon.textContent = '🌙';
+      themeText.textContent = 'Dark Mode';
+      localStorage.setItem('magicStudioTheme', 'light');
+    }
+  }
+  
+  // Load saved theme preference
+  const savedTheme = localStorage.getItem('magicStudioTheme');
+  if (savedTheme === 'dark') {
+    setTheme(true);
+  } else if (savedTheme === 'light') {
+    setTheme(false);
+  } else {
+    // Check system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark);
+  }
+  
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    setTheme(!isDark);
+  });
 
-  /* ───── LOCK SCREEN LOGIC ───── */
+  /* ───── LOCK SCREEN LOGIC (unchanged but respects theme) ───── */
   const lockScreen  = document.getElementById('lockScreen');
   const mainApp     = document.getElementById('mainApp');
   const lockPhone   = document.getElementById('lockPhone');
@@ -848,7 +803,6 @@
   document.getElementById('lockWaBtn').addEventListener('click', function(){
     const num = lockPhone.value.trim();
     if (!num) { lockPhone.focus(); return; }
-    // Remove leading 0 if present, add country code 91 for India
     const clean = num.replace(/\D/g, '');
     const waNum = clean.startsWith('91') ? clean : '91' + clean.replace(/^0/, '');
     window.open('https://wa.me/' + waNum, '_blank');
@@ -871,16 +825,13 @@
 
   function unlock() {
     const num = lockPhone.value.trim();
-    // Animate lock screen out
     lockScreen.classList.add('hiding');
     setTimeout(() => {
       lockScreen.style.display = 'none';
-      // Show main app
       mainApp.style.display = 'block';
       requestAnimationFrame(() => {
         mainApp.classList.add('visible');
       });
-      // Pre-fill client number into the main form
       if (num) {
         document.getElementById('clientNum').value = num;
         updateAll();
@@ -893,14 +844,13 @@
     if (e.key === 'Enter') unlock();
   });
 
-  /* ───── MAIN APP LOGIC ───── */
+  /* ───── MAIN APP LOGIC (unchanged, but uses theme aware updates) ───── */
   let starVal = 0, payMode = '', manualDate = false, manualTime = false;
   let dateVal = '';
   let timeVal24 = '';
   let presets = [];
 
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
   function pad(n){ return String(n).padStart(2,'0'); }
   function fmtINR(n){ return '₹' + Number(n).toLocaleString('en-IN'); }
 
@@ -909,7 +859,6 @@
     const [y, m, d] = isoDate.split('-').map(Number);
     return `${pad(d)} ${monthNames[m-1]} ${y}`;
   }
-
   function formatDisplayTime(time24){
     if(!time24) return '--';
     let [h, min] = time24.split(':').map(Number);
@@ -917,36 +866,20 @@
     h = h % 12 || 12;
     return `${h}:${pad(min)} ${ampm}`;
   }
-
   function getNow(){
     var d = new Date();
-    return {
-      isoDate: d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()),
-      isoTime: pad(d.getHours())+':'+pad(d.getMinutes())
-    };
+    return { isoDate: d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()), isoTime: pad(d.getHours())+':'+pad(d.getMinutes()) };
   }
-
   function loadPresets(){
     const saved = localStorage.getItem('magicStudioWorkPresets');
-    if(saved){
-      presets = JSON.parse(saved);
-    } else {
-      presets = ["Wedding Invitation Design","Poster Design","Logo Design","Flyer Design","Banner Design","Social Media Post","Business Card Design","Brochure Design"];
-      localStorage.setItem('magicStudioWorkPresets', JSON.stringify(presets));
-    }
+    if(saved){ presets = JSON.parse(saved); } else { presets = ["Wedding Invitation Design","Poster Design","Logo Design","Flyer Design","Banner Design","Social Media Post","Business Card Design","Brochure Design"]; localStorage.setItem('magicStudioWorkPresets', JSON.stringify(presets)); }
     updateDatalist();
   }
-
   function updateDatalist(){
     const dl = document.getElementById('workSuggestions');
     dl.innerHTML = '';
-    presets.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p;
-      dl.appendChild(opt);
-    });
+    presets.forEach(p => { const opt = document.createElement('option'); opt.value = p; dl.appendChild(opt); });
   }
-
   function saveNewPreset(val){
     val = val.trim();
     if(!val || presets.includes(val)) return;
@@ -955,234 +888,46 @@
     localStorage.setItem('magicStudioWorkPresets', JSON.stringify(presets));
     updateDatalist();
   }
-
   function initDT(){
     var n = getNow();
-    dateVal = n.isoDate;
-    timeVal24 = n.isoTime;
+    dateVal = n.isoDate; timeVal24 = n.isoTime;
     document.getElementById('dateDisplay').textContent = formatDisplayDate(dateVal);
     document.getElementById('timeDisplay').textContent = formatDisplayTime(timeVal24);
     document.getElementById('dateInput').value = dateVal;
     document.getElementById('timeInput').value = timeVal24;
   }
-
   setInterval(function(){
     var n = getNow();
-    if(!manualDate) {
-      dateVal = n.isoDate;
-      document.getElementById('dateDisplay').textContent = formatDisplayDate(dateVal);
-    }
-    if(!manualTime) {
-      timeVal24 = n.isoTime;
-      document.getElementById('timeDisplay').textContent = formatDisplayTime(timeVal24);
-    }
+    if(!manualDate) { dateVal = n.isoDate; document.getElementById('dateDisplay').textContent = formatDisplayDate(dateVal); }
+    if(!manualTime) { timeVal24 = n.isoTime; document.getElementById('timeDisplay').textContent = formatDisplayTime(timeVal24); }
   }, 1000);
-
   function setupDateTimeTiles(){
-    const dateTile = document.getElementById('dateTile');
-    const timeTile = document.getElementById('timeTile');
-    const dateInput = document.getElementById('dateInput');
-    const timeInput = document.getElementById('timeInput');
-
-    function openPicker(input) {
-      input.focus();
-      setTimeout(() => {
-        if (typeof input.showPicker === 'function') {
-          try { input.showPicker(); } catch(e) { input.click(); }
-        } else { input.click(); }
-      }, 15);
-    }
-
-    dateTile.addEventListener('click', () => openPicker(dateInput));
-    timeTile.addEventListener('click', () => openPicker(timeInput));
+    const dateTile = document.getElementById('dateTile'), timeTile = document.getElementById('timeTile');
+    const dateInput = document.getElementById('dateInput'), timeInput = document.getElementById('timeInput');
+    function openPicker(input) { input.focus(); setTimeout(() => { if (typeof input.showPicker === 'function') { try { input.showPicker(); } catch(e) { input.click(); } } else { input.click(); } }, 15); }
+    dateTile.addEventListener('click', () => openPicker(dateInput)); timeTile.addEventListener('click', () => openPicker(timeInput));
     dateTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(dateInput); } });
     timeTile.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPicker(timeInput); } });
-
-    dateInput.addEventListener('change', function(){
-      if(this.value){
-        document.getElementById('dateDisplay').textContent = formatDisplayDate(this.value);
-        dateVal = this.value;
-        manualDate = true;
-        updateAll();
-      }
-    });
-
-    timeInput.addEventListener('change', function(){
-      if(this.value){
-        document.getElementById('timeDisplay').textContent = formatDisplayTime(this.value);
-        timeVal24 = this.value;
-        manualTime = true;
-        updateAll();
-      }
-    });
+    dateInput.addEventListener('change', function(){ if(this.value){ document.getElementById('dateDisplay').textContent = formatDisplayDate(this.value); dateVal = this.value; manualDate = true; updateAll(); } });
+    timeInput.addEventListener('change', function(){ if(this.value){ document.getElementById('timeDisplay').textContent = formatDisplayTime(this.value); timeVal24 = this.value; manualTime = true; updateAll(); } });
   }
-
-  function calcValues(){
-    var total = parseFloat(document.getElementById('totalAmt').value)||0;
-    var disc  = parseFloat(document.getElementById('discount').value)||0;
-    var paid  = parseFloat(document.getElementById('amtPaid').value)||0;
-    var auto  = Math.max(0, total - disc);
-    var pending = Math.max(0, auto - paid);
-    return { total, disc, paid, auto, pending };
-  }
-
-  function buildOutput(){
-    var c = calcValues();
-    var dispDate = formatDisplayDate(dateVal);
-    var dispTime = formatDisplayTime(timeVal24);
-    var clientNum  = document.getElementById('clientNum').value.trim()||'';
-    var clientName = document.getElementById('clientName').value.trim()||'';
-    var workDesc   = document.getElementById('workDesc').value.trim()||'';
-    var notes      = document.getElementById('extraNotes').value.trim()||'';
-    var pending    = c.pending > 0 ? c.pending : '';
-    return [dispDate, dispTime, clientName, clientNum, workDesc, c.total, c.disc, c.auto, c.paid, pending, starVal, payMode, notes].join('\t');
-  }
-
-  function updateAll(){
-    var c = calcValues();
-    document.getElementById('autoCalc').textContent = fmtINR(c.auto);
-    document.getElementById('recvDisplay').textContent = fmtINR(c.paid);
-    document.getElementById('netPayable').textContent = fmtINR(c.auto);
-
-    var pendEl = document.getElementById('pendingDisplay');
-    var pendRow = document.getElementById('pendingRow');
-    pendEl.textContent = fmtINR(c.pending);
-    if(c.pending <= 0 && c.auto > 0){
-      pendRow.classList.add('settled');
-      pendEl.style.color = 'var(--green)';
-    } else {
-      pendRow.classList.remove('settled');
-      pendEl.style.color = c.pending > 0 ? 'var(--red)' : '';
-    }
-    document.getElementById('previewText').textContent = buildOutput();
-  }
-
-  function showToast(customMsg = null){
-    var t = document.getElementById('toast');
-    const textSpan = t.querySelector('span:last-child');
-    const originalMsg = textSpan.textContent;
-    if(customMsg) textSpan.textContent = customMsg;
-    t.classList.add('show');
-    setTimeout(() => {
-      t.classList.remove('show');
-      if(customMsg) setTimeout(() => { textSpan.textContent = originalMsg; }, 400);
-    }, 2800);
-  }
-
-  function copyClientNumber(){
-    const num = document.getElementById('clientNum').value.trim();
-    if(!num){ showToast('Enter Client Number first'); return; }
-    navigator.clipboard.writeText(num).then(() => showToast('Client Number Copied!')).catch(() => fallbackCopy(num, 'Client Number Copied!'));
-  }
-
-  function fallbackCopy(text, msg){
-    var ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast(msg);
-  }
-
-  function setupStars(){
-    document.querySelectorAll('.star-btn').forEach(s => {
-      s.addEventListener('click', function(){
-        starVal = parseInt(this.dataset.val);
-        document.querySelectorAll('.star-btn').forEach((x,i) => x.classList.toggle('active', i < starVal));
-        updateAll();
-      });
-    });
-  }
-
-  function setupPayChips(){
-    document.querySelectorAll('.pay-chip').forEach(b => {
-      b.addEventListener('click', function(){
-        payMode = this.dataset.mode;
-        document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected'));
-        this.classList.add('selected');
-        updateAll();
-      });
-    });
-  }
-
-  function setupInputs(){
-    ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => {
-      document.getElementById(id).addEventListener('input', updateAll);
-    });
-    document.getElementById('workDesc').addEventListener('blur', function(){
-      saveNewPreset(this.value);
-    });
-  }
-
-  function setupDone(){
-    document.getElementById('doneBtn').addEventListener('click', function(){
-      var out = buildOutput();
-      navigator.clipboard.writeText(out).then(() => showToast()).catch(() => fallbackCopy(out));
-    });
-  }
-
-  function setupReset(){
-    document.getElementById('resetBtn').addEventListener('click', function(){
-      ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
-      starVal = 0; payMode = ''; manualDate = false; manualTime = false;
-      document.querySelectorAll('.star-btn').forEach(x => x.classList.remove('active'));
-      document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected'));
-      initDT();
-      updateAll();
-    });
-  }
-
-  function setupCopyBtn(){
-    document.getElementById('copyNumBtn').addEventListener('click', copyClientNumber);
-  }
-
-  function setupBackBtn(){
-    document.getElementById('backBtn').addEventListener('click', function(){
-      // Hide main app
-      mainApp.classList.remove('visible');
-      setTimeout(() => {
-        mainApp.style.display = 'none';
-        // Show lock screen again
-        lockScreen.style.display = 'flex';
-        lockScreen.classList.remove('hiding');
-        requestAnimationFrame(() => { lockScreen.style.opacity = '1'; lockScreen.style.transform = ''; });
-        lockPhone.focus();
-      }, 300);
-    });
-  }
-
-  function setupTcBtn(){
-    document.getElementById('tcNumBtn').addEventListener('click', function(){
-      const num = document.getElementById('clientNum').value.trim();
-      if(!num){ showToast('Enter Client Number first'); return; }
-      const clean = num.replace(/\D/g, '');
-      window.open('https://www.truecaller.com/search/in/' + clean, '_blank');
-    });
-  }
-
-  function init(){
-    loadPresets();
-    initDT();
-    setupDateTimeTiles();
-    setupStars();
-    setupPayChips();
-    setupInputs();
-    setupDone();
-    setupReset();
-    setupBackBtn();
-    setupCopyBtn();
-    setupTcBtn();
-    updateAll();
-  }
-
+  function calcValues(){ var total = parseFloat(document.getElementById('totalAmt').value)||0; var disc = parseFloat(document.getElementById('discount').value)||0; var paid = parseFloat(document.getElementById('amtPaid').value)||0; var auto = Math.max(0, total - disc); var pending = Math.max(0, auto - paid); return { total, disc, paid, auto, pending }; }
+  function buildOutput(){ var c = calcValues(); var dispDate = formatDisplayDate(dateVal); var dispTime = formatDisplayTime(timeVal24); var clientNum = document.getElementById('clientNum').value.trim()||''; var clientName = document.getElementById('clientName').value.trim()||''; var workDesc = document.getElementById('workDesc').value.trim()||''; var notes = document.getElementById('extraNotes').value.trim()||''; var pending = c.pending > 0 ? c.pending : ''; return [dispDate, dispTime, clientName, clientNum, workDesc, c.total, c.disc, c.auto, c.paid, pending, starVal, payMode, notes].join('\t'); }
+  function updateAll(){ var c = calcValues(); document.getElementById('autoCalc').textContent = fmtINR(c.auto); document.getElementById('recvDisplay').textContent = fmtINR(c.paid); document.getElementById('netPayable').textContent = fmtINR(c.auto); var pendEl = document.getElementById('pendingDisplay'); var pendRow = document.getElementById('pendingRow'); pendEl.textContent = fmtINR(c.pending); if(c.pending <= 0 && c.auto > 0){ pendRow.classList.add('settled'); pendEl.style.color = 'var(--green)'; } else { pendRow.classList.remove('settled'); pendEl.style.color = c.pending > 0 ? 'var(--red)' : ''; } document.getElementById('previewText').textContent = buildOutput(); }
+  function showToast(customMsg = null){ var t = document.getElementById('toast'); const textSpan = t.querySelector('span:last-child'); const originalMsg = textSpan.textContent; if(customMsg) textSpan.textContent = customMsg; t.classList.add('show'); setTimeout(() => { t.classList.remove('show'); if(customMsg) setTimeout(() => { textSpan.textContent = originalMsg; }, 400); }, 2800); }
+  function copyClientNumber(){ const num = document.getElementById('clientNum').value.trim(); if(!num){ showToast('Enter Client Number first'); return; } navigator.clipboard.writeText(num).then(() => showToast('Client Number Copied!')).catch(() => fallbackCopy(num, 'Client Number Copied!')); }
+  function fallbackCopy(text, msg){ var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast(msg); }
+  function setupStars(){ document.querySelectorAll('.star-btn').forEach(s => { s.addEventListener('click', function(){ starVal = parseInt(this.dataset.val); document.querySelectorAll('.star-btn').forEach((x,i) => x.classList.toggle('active', i < starVal)); updateAll(); }); }); }
+  function setupPayChips(){ document.querySelectorAll('.pay-chip').forEach(b => { b.addEventListener('click', function(){ payMode = this.dataset.mode; document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected')); this.classList.add('selected'); updateAll(); }); }); }
+  function setupInputs(){ ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => { document.getElementById(id).addEventListener('input', updateAll); }); document.getElementById('workDesc').addEventListener('blur', function(){ saveNewPreset(this.value); }); }
+  function setupDone(){ document.getElementById('doneBtn').addEventListener('click', function(){ var out = buildOutput(); navigator.clipboard.writeText(out).then(() => showToast()).catch(() => fallbackCopy(out)); }); }
+  function setupReset(){ document.getElementById('resetBtn').addEventListener('click', function(){ ['totalAmt','discount','amtPaid','clientNum','clientName','workDesc','extraNotes'].forEach(id => { document.getElementById(id).value = ''; }); starVal = 0; payMode = ''; manualDate = false; manualTime = false; document.querySelectorAll('.star-btn').forEach(x => x.classList.remove('active')); document.querySelectorAll('.pay-chip').forEach(x => x.classList.remove('selected')); initDT(); updateAll(); }); }
+  function setupCopyBtn(){ document.getElementById('copyNumBtn').addEventListener('click', copyClientNumber); }
+  function setupBackBtn(){ document.getElementById('backBtn').addEventListener('click', function(){ mainApp.classList.remove('visible'); setTimeout(() => { mainApp.style.display = 'none'; lockScreen.style.display = 'flex'; lockScreen.classList.remove('hiding'); requestAnimationFrame(() => { lockScreen.style.opacity = '1'; lockScreen.style.transform = ''; }); lockPhone.focus(); }, 300); }); }
+  function setupTcBtn(){ document.getElementById('tcNumBtn').addEventListener('click', function(){ const num = document.getElementById('clientNum').value.trim(); if(!num){ showToast('Enter Client Number first'); return; } const clean = num.replace(/\D/g, ''); window.open('https://www.truecaller.com/search/in/' + clean, '_blank'); }); }
+  function init(){ loadPresets(); initDT(); setupDateTimeTiles(); setupStars(); setupPayChips(); setupInputs(); setupDone(); setupReset(); setupBackBtn(); setupCopyBtn(); setupTcBtn(); updateAll(); }
   init();
-
-  // Focus lock phone input on load
   lockPhone.focus();
-
 })();
 </script>
 </body>

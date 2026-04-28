@@ -98,11 +98,8 @@
   .lock-input-wrap {
     width: 100%;
     max-width: 400px;
-    display: flex;
-    gap: 0;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    overflow: hidden;
     border: 1.5px solid transparent;
     transition: border-color 0.2s;
     background: white;
@@ -112,66 +109,107 @@
   }
 
   #lockPhone {
-    flex: 1;
+    width: 100%;
     border: none;
     background: transparent;
     padding: 18px 16px;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     color: var(--text-primary);
     font-family: var(--font);
     outline: none;
-    min-width: 0;
+    text-align: center;
   }
   #lockPhone::placeholder {
     color: var(--text-tertiary);
     font-weight: 400;
     letter-spacing: 0;
-    font-size: 20px;
+    font-size: 18px;
   }
 
-  .lock-copy-btn {
-    background: none;
-    border: none;
-    border-left: 1.5px solid var(--separator);
-    padding: 0 18px;
+  .lock-action-row {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .lock-action-btn {
+    flex: 1;
+    background: white;
+    border: 1.5px solid var(--separator);
+    border-radius: var(--radius-md);
+    padding: 12px 8px;
     cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 22px;
-    transition: background 0.15s, color 0.15s;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    box-shadow: var(--shadow-sm);
   }
-  .lock-copy-btn:hover { background: var(--accent-soft); color: var(--accent); }
-  .lock-copy-btn:active { transform: scale(0.92); }
+  .lock-action-btn:active { transform: scale(0.93); }
 
-  .lock-wa-btn {
-    background: none;
-    border: none;
-    border-left: 1.5px solid var(--separator);
-    padding: 0 18px;
-    cursor: pointer;
-    color: #25D366;
-    font-size: 22px;
-    transition: background 0.15s, color 0.15s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .lock-wa-btn:hover { background: rgba(37,211,102,0.1); color: #1ead55; }
-  .lock-wa-btn:active { transform: scale(0.92); }
+  .lock-action-btn .btn-icon { font-size: 20px; line-height: 1; }
+  .lock-action-btn .btn-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; color: var(--text-secondary); }
 
-  .lock-go-btn {
+  .lock-action-btn.copy-action:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .lock-action-btn.copy-action:hover .btn-label { color: var(--accent); }
+
+  .lock-action-btn.wa-action:hover { background: rgba(37,211,102,0.1); border-color: #25D366; }
+  .lock-action-btn.wa-action:hover .btn-label { color: #1ead55; }
+
+  .lock-action-btn.tc-action:hover { background: rgba(26,115,232,0.1); border-color: #1a73e8; }
+  .lock-action-btn.tc-action:hover .btn-label { color: #1a73e8; }
+
+  .lock-action-btn.go-action {
     background: var(--accent);
-    border: none;
-    border-left: 1px solid rgba(255,255,255,0.2);
-    padding: 0 22px;
-    cursor: pointer;
-    color: white;
-    font-size: 22px;
-    transition: background 0.15s, transform 0.1s;
-    display: flex; align-items: center; justify-content: center;
+    border-color: var(--accent);
+    flex: 1.4;
   }
-  .lock-go-btn:hover { background: #a81518; }
-  .lock-go-btn:active { transform: scale(0.92); }
+  .lock-action-btn.go-action .btn-icon { color: white; font-size: 22px; }
+  .lock-action-btn.go-action .btn-label { color: rgba(255,255,255,0.85); }
+  .lock-action-btn.go-action:hover { background: #a81518; }
+
+  .lock-action-row {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .lock-action-btn {
+    flex: 1;
+    background: white;
+    border: 1.5px solid var(--separator);
+    border-radius: var(--radius-md);
+    padding: 11px 6px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    box-shadow: var(--shadow-sm);
+  }
+  .lock-action-btn:active { transform: scale(0.93); }
+  .lock-action-btn .btn-icon { font-size: 20px; line-height: 1; display:flex; align-items:center; justify-content:center; }
+  .lock-action-btn .btn-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2px; color: var(--text-secondary); }
+  .lock-action-btn.copy-action:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .lock-action-btn.copy-action:hover .btn-label { color: var(--accent); }
+  .lock-action-btn.wa-action:hover { background: rgba(37,211,102,0.1); border-color: #25D366; }
+  .lock-action-btn.wa-action:hover .btn-label { color: #1ead55; }
+  .lock-action-btn.tc-action:hover { background: rgba(26,115,232,0.1); border-color: #1a73e8; }
+  .lock-action-btn.tc-action:hover .btn-label { color: #1a73e8; }
+  .lock-action-btn.go-action {
+    background: var(--accent); border-color: var(--accent); flex: 1.5;
+  }
+  .lock-action-btn.go-action .btn-label { color: rgba(255,255,255,0.9); }
+  .lock-action-btn.go-action:hover { background: #a81518; }
 
   .lock-hint {
     margin-top: 14px;
@@ -395,6 +433,26 @@
   }
   .copy-num-btn:active { transform: scale(0.95); }
 
+  .tc-num-btn {
+    background: #e8f0fe;
+    color: #1a73e8;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0 16px;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.15s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 58px;
+    flex-shrink: 0;
+  }
+  .tc-num-btn:hover { background: #d2e3fc; }
+  .tc-num-btn:active { transform: scale(0.95); }
+
   .star-row { display: flex; gap: 4px; }
   .star-btn {
     background: none; border: none; cursor: pointer;
@@ -549,19 +607,29 @@
       inputmode="numeric"
       maxlength="15"
     >
-    <button type="button" class="lock-copy-btn" id="lockCopyBtn" title="Copy number">
-      📋
+  </div>
+
+  <div class="lock-action-row">
+    <button type="button" class="lock-action-btn copy-action" id="lockCopyBtn" title="Copy number">
+      <span class="btn-icon">📋</span>
+      <span class="btn-label">Copy</span>
     </button>
-    <button type="button" class="lock-wa-btn" id="lockWaBtn" title="Open WhatsApp Chat">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <button type="button" class="lock-action-btn wa-action" id="lockWaBtn" title="Open WhatsApp">
+      <span class="btn-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+      <span class="btn-label">WhatsApp</span>
     </button>
-    <button type="button" class="lock-go-btn" id="lockGoBtn" title="Open full tool">
-      ➜
+    <button type="button" class="lock-action-btn tc-action" id="lockTcBtn" title="Find Name on Truecaller">
+      <span class="btn-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></span>
+      <span class="btn-label">Find Name</span>
+    </button>
+    <button type="button" class="lock-action-btn go-action" id="lockGoBtn" title="Open full tool">
+      <span class="btn-icon" style="color:white;font-size:22px;">➜</span>
+      <span class="btn-label">Open</span>
     </button>
   </div>
 
   <div class="lock-copied-toast" id="lockCopiedToast">✓ Number copied!</div>
-  <div class="lock-hint">Press ➜ or Enter to open the full entry form</div>
+  <div class="lock-hint">Press Open or Enter to launch the full form</div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -570,6 +638,10 @@
 <div id="mainApp">
 
 <div class="app-header">
+  <button type="button" id="backBtn" title="Back to number entry" style="position:absolute;left:16px;top:44px;background:var(--input-bg);border:none;border-radius:var(--radius-md);padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:5px;transition:background 0.15s,color 0.15s;">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back
+  </button>
   <div class="app-icon">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
@@ -617,6 +689,9 @@
         <div style="display:flex; align-items:center; gap:8px;">
           <input type="tel" id="clientNum" class="big-input" placeholder="98XXXXXXXX" autocomplete="off">
           <button type="button" id="copyNumBtn" class="copy-num-btn">📋 Copy</button>
+          <button type="button" id="tcNumBtn" class="tc-num-btn" title="Find Name on Truecaller">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          </button>
         </div>
       </div>
 
@@ -777,6 +852,13 @@
     const clean = num.replace(/\D/g, '');
     const waNum = clean.startsWith('91') ? clean : '91' + clean.replace(/^0/, '');
     window.open('https://wa.me/' + waNum, '_blank');
+  });
+
+  document.getElementById('lockTcBtn').addEventListener('click', function(){
+    const num = lockPhone.value.trim();
+    if (!num) { lockPhone.focus(); return; }
+    const clean = num.replace(/\D/g, '');
+    window.open('https://www.truecaller.com/search/in/' + clean, '_blank');
   });
 
   function fbCopyLock(text) {
@@ -1057,6 +1139,30 @@
     document.getElementById('copyNumBtn').addEventListener('click', copyClientNumber);
   }
 
+  function setupBackBtn(){
+    document.getElementById('backBtn').addEventListener('click', function(){
+      // Hide main app
+      mainApp.classList.remove('visible');
+      setTimeout(() => {
+        mainApp.style.display = 'none';
+        // Show lock screen again
+        lockScreen.style.display = 'flex';
+        lockScreen.classList.remove('hiding');
+        requestAnimationFrame(() => { lockScreen.style.opacity = '1'; lockScreen.style.transform = ''; });
+        lockPhone.focus();
+      }, 300);
+    });
+  }
+
+  function setupTcBtn(){
+    document.getElementById('tcNumBtn').addEventListener('click', function(){
+      const num = document.getElementById('clientNum').value.trim();
+      if(!num){ showToast('Enter Client Number first'); return; }
+      const clean = num.replace(/\D/g, '');
+      window.open('https://www.truecaller.com/search/in/' + clean, '_blank');
+    });
+  }
+
   function init(){
     loadPresets();
     initDT();
@@ -1066,7 +1172,9 @@
     setupInputs();
     setupDone();
     setupReset();
+    setupBackBtn();
     setupCopyBtn();
+    setupTcBtn();
     updateAll();
   }
 
